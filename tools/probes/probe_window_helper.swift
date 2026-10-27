@@ -8,7 +8,15 @@ let app = NSApplication.shared
 app.setActivationPolicy(.accessory)
 let w = NSWindow(contentRect: NSRect(x: 200, y: 200, width: 280, height: 120),
                  styleMask: [.titled], backing: .buffered, defer: false)
-w.title = "spaces-probe-window"
+func arg(_ name: String) -> String? {
+    guard let i = CommandLine.arguments.firstIndex(of: name), i + 1 < CommandLine.arguments.count else { return nil }
+    return CommandLine.arguments[i + 1]
+}
+w.title = arg("--title") ?? "spaces-probe-window"
+// Optional: --origin x,y places the window (Cocoa coordinates: origin bottom-left of the primary display).
+if let o = arg("--origin")?.split(separator: ",").compactMap({ Double($0) }), o.count == 2 {
+    w.setFrameOrigin(NSPoint(x: o[0], y: o[1]))
+}
 w.level = .normal
 w.orderFrontRegardless()
 // Optional: --move-self-to <spaceID> moves this helper's OWN window (allowed) to that Space.
