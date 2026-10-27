@@ -9,12 +9,14 @@ from the Command Line Tools; no Xcode project needed. Output goes to `/tmp`.
 | `spaces_dump.swift` | - | Yes, read-only. Prints displays and Space IDs. |
 | `window_move_probe.swift` + `probe_window_helper.swift` | #6 | Briefly shows a throwaway window; does not switch Spaces. |
 | `self_move_control.swift` | #6 | Same, control run. |
+| `ax_probe.swift` | #6 | Needs Accessibility for the host terminal. Briefly shows a throwaway window, moves it across displays by AX position. Does not switch Spaces. |
 
 ```
 swiftc -O spaces_dump.swift -o /tmp/spaces_dump
 swiftc -O probe_window_helper.swift -o /tmp/probe_window_helper
 swiftc -O window_move_probe.swift -o /tmp/window_move_probe
 swiftc -O self_move_control.swift -o /tmp/self_move_control
+swiftc -O ax_probe.swift -o /tmp/ax_probe
 /tmp/window_move_probe --target <spaceID> [--cross-display]
 ```
 
