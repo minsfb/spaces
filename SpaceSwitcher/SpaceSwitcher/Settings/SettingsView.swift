@@ -155,6 +155,13 @@ struct GeneralSettingsView: View {
             LaunchAtLogin.Toggle("Launch at login")
             Toggle("Switch the whole group when a Space changes on one display (e.g. three-finger swipe)",
                    isOn: Binding(get: { appState.followEnabled }, set: { appState.followEnabled = $0 }))
+            Toggle("Track windows to plan for display changes (experimental, dry run: logs only, moves nothing)",
+                   isOn: Binding(get: { appState.trackWindowsEnabled }, set: { appState.trackWindowsEnabled = $0 }))
+            Picker("Window snapshot interval", selection: Binding(get: { appState.snapshotIntervalSeconds },
+                                                                  set: { appState.snapshotIntervalSeconds = $0 })) {
+                ForEach([1, 5, 30, 60], id: \.self) { Text("\($0) s").tag($0) }
+            }
+            .disabled(!appState.trackWindowsEnabled)
 
             if Bundle.main.bundleIdentifier == "com.spaceswitcher.Spaces" {
                 Divider()

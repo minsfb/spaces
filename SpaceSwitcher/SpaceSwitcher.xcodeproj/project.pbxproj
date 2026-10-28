@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		052C90B0456D59A801348E94 /* SpaceLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4566A9DC80280558A9FC0339 /* SpaceLayout.swift */; };
+		0F5C4D0CB36FAEA49C21AE94 /* WindowTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9957CC55DF62F0D0C488157B /* WindowTracker.swift */; };
 		150EE3AF6ACAC8BD6530F32F /* SpaceDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51341432350BE0B352C726BD /* SpaceDiff.swift */; };
 		19F3467D5592246D46616000 /* SpaceSwitcherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1D73DA7B4FEB34EEA96877 /* SpaceSwitcherApp.swift */; };
 		220EDB97C2F63E902B56D087 /* SessionGuard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4156E7D6B9610662E040BC60 /* SessionGuard.swift */; };
@@ -21,9 +23,12 @@
 		6D08E9CD25E5FC0297268050 /* GestureFollower.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD665D90874B51B299675F3D /* GestureFollower.swift */; };
 		718D23BC7B129DFC05AABEC2 /* MonitorInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01D2E144AE1C45F0FDB9FBA /* MonitorInfo.swift */; };
 		74E27AA9980ABA389AC13A0A /* VisualEffectBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC9BD10777570A68A1B5DFA /* VisualEffectBackground.swift */; };
+		75AB7750DBD0786C9ED43014 /* WindowMovePlanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = F85992816AC4F2D5BFDEF03A /* WindowMovePlanner.swift */; };
 		78E316CD8F4D07D7B38D9384 /* KeyCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511C0879CCEE1BA7E98757E6 /* KeyCodes.swift */; };
 		7D42A462B649AC1BF6B9142F /* SpaceSwitcherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99E961A805224DAE6EC4908 /* SpaceSwitcherService.swift */; };
 		8FED2ED0DB3A2709255F6AB3 /* MonitorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 625BCCA3E367C8F5C636D3EB /* MonitorManager.swift */; };
+		9AFEAC84ECDD833A8AB20497 /* WindowTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0311E35F971CAFDCC1EB52 /* WindowTracking.swift */; };
+		A18E36B343DE5883FF7ADBA7 /* WindowSnapshotter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E91FD45A5EC627EBDA81174 /* WindowSnapshotter.swift */; };
 		A616E75F65BC7F6598F5F83F /* DesktopGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44ADA2FB8CBA785DD97C2585 /* DesktopGroup.swift */; };
 		B4F5098928558C30AC9E0680 /* HotkeySettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E2D42A485F3BA53DB58580E /* HotkeySettingsView.swift */; };
 		B965243B6ED52CDD9BCD207E /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 7EE5FE12DA3AB8BE495CB7D9 /* LaunchAtLogin */; };
@@ -41,6 +46,7 @@
 
 /* Begin PBXFileReference section */
 		01BA33362420C9BC4093D0EC /* IconPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPicker.swift; sourceTree = "<group>"; };
+		0E0311E35F971CAFDCC1EB52 /* WindowTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowTracking.swift; sourceTree = "<group>"; };
 		0FF639B0B298E449054AEC38 /* SpaceIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceIdentity.swift; sourceTree = "<group>"; };
 		12768B67B30930BCAEC78382 /* SpaceSwitcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceSwitcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1821E8BB46F8C5B39C68CF0B /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
@@ -48,10 +54,12 @@
 		36173B1161C148BCD0DE9910 /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
 		4156E7D6B9610662E040BC60 /* SessionGuard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionGuard.swift; sourceTree = "<group>"; };
 		44ADA2FB8CBA785DD97C2585 /* DesktopGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopGroup.swift; sourceTree = "<group>"; };
+		4566A9DC80280558A9FC0339 /* SpaceLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceLayout.swift; sourceTree = "<group>"; };
 		4A5A37978954CFFA4A6F0208 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		511C0879CCEE1BA7E98757E6 /* KeyCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCodes.swift; sourceTree = "<group>"; };
 		51341432350BE0B352C726BD /* SpaceDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceDiff.swift; sourceTree = "<group>"; };
 		5E2D42A485F3BA53DB58580E /* HotkeySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeySettingsView.swift; sourceTree = "<group>"; };
+		5E91FD45A5EC627EBDA81174 /* WindowSnapshotter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowSnapshotter.swift; sourceTree = "<group>"; };
 		625BCCA3E367C8F5C636D3EB /* MonitorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorManager.swift; sourceTree = "<group>"; };
 		65111C8931987C4799E6C0BB /* AccessibilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityManager.swift; sourceTree = "<group>"; };
 		7263732107A87D03420C4606 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -60,6 +68,7 @@
 		81701DEDA4E28B472C97E56B /* DesktopGroupEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopGroupEditorView.swift; sourceTree = "<group>"; };
 		877DBBE0B3AD2EB37C8682ED /* SpaceSwitcher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SpaceSwitcher.entitlements; sourceTree = "<group>"; };
 		8C4BC5C2790911E5EE41FB19 /* NSScreen+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSScreen+Extensions.swift"; sourceTree = "<group>"; };
+		9957CC55DF62F0D0C488157B /* WindowTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowTracker.swift; sourceTree = "<group>"; };
 		B5CBF89239D977C5E6018C9B /* OverlayManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayManager.swift; sourceTree = "<group>"; };
 		B7018D79B3F1D2EBD4861B6E /* SessionSafety.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSafety.swift; sourceTree = "<group>"; };
 		B99E961A805224DAE6EC4908 /* SpaceSwitcherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceSwitcherService.swift; sourceTree = "<group>"; };
@@ -69,6 +78,7 @@
 		DD665D90874B51B299675F3D /* GestureFollower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureFollower.swift; sourceTree = "<group>"; };
 		F0731CEDE994E470A48867B5 /* CGSPrivate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSPrivate.swift; sourceTree = "<group>"; };
 		F5FC4B141B8E046513571E6E /* MonitorMappingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorMappingView.swift; sourceTree = "<group>"; };
+		F85992816AC4F2D5BFDEF03A /* WindowMovePlanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowMovePlanner.swift; sourceTree = "<group>"; };
 		FBC9BD10777570A68A1B5DFA /* VisualEffectBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectBackground.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -104,6 +114,9 @@
 				B7018D79B3F1D2EBD4861B6E /* SessionSafety.swift */,
 				51341432350BE0B352C726BD /* SpaceDiff.swift */,
 				0FF639B0B298E449054AEC38 /* SpaceIdentity.swift */,
+				4566A9DC80280558A9FC0339 /* SpaceLayout.swift */,
+				F85992816AC4F2D5BFDEF03A /* WindowMovePlanner.swift */,
+				0E0311E35F971CAFDCC1EB52 /* WindowTracking.swift */,
 			);
 			path = Logic;
 			sourceTree = "<group>";
@@ -188,6 +201,8 @@
 				36173B1161C148BCD0DE9910 /* PersistenceManager.swift */,
 				4156E7D6B9610662E040BC60 /* SessionGuard.swift */,
 				B99E961A805224DAE6EC4908 /* SpaceSwitcherService.swift */,
+				5E91FD45A5EC627EBDA81174 /* WindowSnapshotter.swift */,
+				9957CC55DF62F0D0C488157B /* WindowTracker.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -302,9 +317,14 @@
 				D153813DEA14AAD546D80A04 /* SettingsView.swift in Sources */,
 				150EE3AF6ACAC8BD6530F32F /* SpaceDiff.swift in Sources */,
 				C1968DCF7FC31D51CCE38909 /* SpaceIdentity.swift in Sources */,
+				052C90B0456D59A801348E94 /* SpaceLayout.swift in Sources */,
 				19F3467D5592246D46616000 /* SpaceSwitcherApp.swift in Sources */,
 				7D42A462B649AC1BF6B9142F /* SpaceSwitcherService.swift in Sources */,
 				74E27AA9980ABA389AC13A0A /* VisualEffectBackground.swift in Sources */,
+				75AB7750DBD0786C9ED43014 /* WindowMovePlanner.swift in Sources */,
+				A18E36B343DE5883FF7ADBA7 /* WindowSnapshotter.swift in Sources */,
+				0F5C4D0CB36FAEA49C21AE94 /* WindowTracker.swift in Sources */,
+				9AFEAC84ECDD833A8AB20497 /* WindowTracking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,6 +14,25 @@ final class AppState {
         didSet { UserDefaults.standard.set(followEnabled, forKey: "gestureFollowEnabled") }
     }
 
+    /// Experimental, dry-run only: track windows so display disconnects can be planned for (nothing is moved).
+    var trackWindowsEnabled: Bool = UserDefaults.standard.bool(forKey: "trackWindowsEnabled") {
+        didSet {
+            UserDefaults.standard.set(trackWindowsEnabled, forKey: "trackWindowsEnabled")
+            updateWindowTracker()
+        }
+    }
+    /// Seconds between window snapshots. Default 30; use 1 while testing.
+    var snapshotIntervalSeconds: Int = {
+        let v = UserDefaults.standard.integer(forKey: "snapshotIntervalSeconds")
+        return v > 0 ? v : 30
+    }() {
+        didSet {
+            UserDefaults.standard.set(snapshotIntervalSeconds, forKey: "snapshotIntervalSeconds")
+            updateWindowTracker()
+        }
+    }
+
+    private let windowTracker = WindowTracker()
     private var follower = GestureFollower()
     private var lastCurrentSpaces: CurrentSpaces = [:]
     private let persistence = PersistenceManager()
@@ -27,6 +46,10 @@ final class AppState {
         refreshMonitors()
         lastCurrentSpaces = SpaceSwitcherService.getCurrentSpacePerDisplay()
         detectActiveGroup()
+        windowTracker.groupsProvider = { [weak self] in
+            (self?.groups ?? []).map { GroupSpec(id: $0.id, spaces: $0.displaySpaces) }
+        }
+        updateWindowTracker()
 
         // Re-detect active group whenever the user switches spaces (e.g. via Mission Control)
         NSWorkspace.shared.notificationCenter.addObserver(
@@ -65,6 +88,14 @@ final class AppState {
                 if let space = group.space(on: monitor) { targets[monitor.displayUUID] = space.spaceID }
             }
             return targets.isEmpty ? nil : FollowGroup(id: group.id, targets: targets)
+        }
+    }
+
+    private func updateWindowTracker() {
+        if trackWindowsEnabled {
+            windowTracker.start(interval: TimeInterval(snapshotIntervalSeconds))
+        } else {
+            windowTracker.stop()
         }
     }
 
