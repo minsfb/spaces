@@ -17,14 +17,14 @@ final class AppState {
     private var follower = GestureFollower()
     private var lastCurrentSpaces: CurrentSpaces = [:]
     private let persistence = PersistenceManager()
-    private var previousSpaceIDs: [String: [UInt64]] = [:]  // monitorID → ordered space IDs
 
     init() {
+        // Older saved groups first go global-desktop-number -> per-monitor index (PersistenceManager),
+        // then per-monitor index -> Space UUID keys (refreshMonitors).
+        monitors = MonitorManager.detectMonitors()
+        persistence.migrateToPerMonitorIndicesIfNeeded(monitors: monitors)
         groups = persistence.loadGroups()
         refreshMonitors()
-        persistence.migrateToPerMonitorIndicesIfNeeded(monitors: monitors)
-        groups = persistence.loadGroups()  // reload after potential migration
-        previousSpaceIDs = buildSpaceIDSnapshot(monitors)
         lastCurrentSpaces = SpaceSwitcherService.getCurrentSpacePerDisplay()
         detectActiveGroup()
 
@@ -57,15 +57,12 @@ final class AppState {
         }
     }
 
-    /// Resolve saved groups (monitor label + per-monitor Space index) to concrete display UUID -> Space ID.
+    /// Resolve saved groups (display UUID -> Space key) to concrete display UUID -> current Space ID.
     private func followGroups() -> [FollowGroup] {
         groups.compactMap { group in
             var targets: [String: UInt64] = [:]
-            for (monitorID, index) in group.monitorSpaces {
-                guard let monitor = monitors.first(where: { $0.id == monitorID }),
-                      !monitor.displayUUID.isEmpty,
-                      let space = monitor.spaceInfo(forIndex: index) else { continue }
-                targets[monitor.displayUUID] = space.spaceID
+            for monitor in monitors {
+                if let space = group.space(on: monitor) { targets[monitor.displayUUID] = space.spaceID }
             }
             return targets.isEmpty ? nil : FollowGroup(id: group.id, targets: targets)
         }
@@ -73,55 +70,27 @@ final class AppState {
 
     func refreshMonitors() {
         monitors = MonitorManager.detectMonitors()
-        reconcileSpaceIndices()
+        migrateLegacyGroups()
     }
 
-    /// Compare current space IDs with previous snapshot; if spaces were added/removed/reordered
-    /// on a monitor, update all group mappings for that monitor so they still point to the same space.
-    private func reconcileSpaceIndices() {
+    /// Convert legacy (monitor label + index) group entries to Space-UUID keys for monitors that are connected now.
+    /// Groups keyed by UUID need no reconciliation when Spaces are added, removed, reordered or re-created.
+    private func migrateLegacyGroups() {
+        let legacyMonitors = monitors.map {
+            LegacyMonitor(label: $0.id, displayUUID: $0.displayUUID,
+                          spaces: $0.spaces.map { SpaceRef(id: $0.spaceID, uuid: $0.uuid) })
+        }
         var anyChanged = false
-
-        for monitor in monitors {
-            let oldIDs = previousSpaceIDs[monitor.id] ?? []
-            let newIDs = monitor.spaces.map(\.spaceID)
-
-            guard oldIDs != newIDs, !oldIDs.isEmpty else { continue }
-
-            // Build oldIndex (1-based) → newIndex (1-based) mapping
-            var oldToNew: [Int: Int] = [:]
-            for (oldArrayIdx, spaceID) in oldIDs.enumerated() {
-                if let newArrayIdx = newIDs.firstIndex(of: spaceID) {
-                    oldToNew[oldArrayIdx + 1] = newArrayIdx + 1
-                }
-            }
-
-            for i in groups.indices {
-                guard let oldIndex = groups[i].monitorSpaces[monitor.id] else { continue }
-                if let newIndex = oldToNew[oldIndex] {
-                    if newIndex != oldIndex {
-                        groups[i].monitorSpaces[monitor.id] = newIndex
-                        anyChanged = true
-                    }
-                } else {
-                    // Space was removed — reset to 1
-                    groups[i].monitorSpaces[monitor.id] = 1
-                    anyChanged = true
-                }
-            }
+        for i in groups.indices where !groups[i].monitorSpaces.isEmpty {
+            let r = LegacyMigration.migrate(legacy: groups[i].monitorSpaces,
+                                            displaySpaces: groups[i].displaySpaces,
+                                            monitors: legacyMonitors)
+            guard r.changed else { continue }
+            groups[i].displaySpaces = r.displaySpaces
+            groups[i].monitorSpaces = r.legacy
+            anyChanged = true
         }
-
-        if anyChanged {
-            saveGroups()
-        }
-        previousSpaceIDs = buildSpaceIDSnapshot(monitors)
-    }
-
-    private func buildSpaceIDSnapshot(_ monitors: [MonitorInfo]) -> [String: [UInt64]] {
-        var snapshot: [String: [UInt64]] = [:]
-        for monitor in monitors {
-            snapshot[monitor.id] = monitor.spaces.map(\.spaceID)
-        }
-        return snapshot
+        if anyChanged { saveGroups() }
     }
 
     func saveGroups() {
@@ -160,13 +129,11 @@ final class AppState {
 
         for group in groups {
             let allMatch = monitors.allSatisfy { monitor in
-                guard let spaceIndex = group.monitorSpaces[monitor.id],
-                      !monitor.displayUUID.isEmpty,
-                      let currentSpaceID = currentSpaces[monitor.displayUUID],
-                      let spaceInfo = monitor.spaceInfo(forIndex: spaceIndex)
+                guard let spaceInfo = group.space(on: monitor),
+                      let currentSpaceID = currentSpaces[monitor.displayUUID]
                 else {
                     // If the group doesn't define a space for this monitor, skip it
-                    return group.monitorSpaces[monitor.id] == nil
+                    return !group.hasSpace(on: monitor)
                 }
                 return spaceInfo.spaceID == currentSpaceID
             }

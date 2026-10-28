@@ -3,7 +3,8 @@ import CoreGraphics
 
 struct SpaceInfo: Hashable {
     let desktopNumber: Int   // Global desktop number (e.g. 5)
-    let spaceID: UInt64      // Internal macOS space ID for CGSManagedDisplaySetCurrentSpace
+    let spaceID: UInt64      // Internal macOS space ID. NOT stable across display reconnects.
+    let uuid: String         // Space UUID (stable); empty for a display's primary Space
 }
 
 struct MonitorInfo: Identifiable, Hashable {

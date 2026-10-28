@@ -23,8 +23,7 @@ enum SpaceSwitcherService {
             logger.info("  Monitor '\(monitor.id, privacy: .public)' displayUUID='\(monitor.displayUUID, privacy: .public)' spaces=\(spacesDesc, privacy: .public)")
         }
 
-        let groupSpacesDesc = group.monitorSpaces.map { "\($0.key): \($0.value)" }.joined(separator: ", ")
-        logger.info("Group monitorSpaces: \(groupSpacesDesc, privacy: .public)")
+        logger.info("Group displaySpaces entries: \(group.displaySpaces.count)")
 
         let trusted = AXIsProcessTrusted()
         logger.info("AXIsProcessTrusted: \(trusted)")
@@ -37,12 +36,12 @@ enum SpaceSwitcherService {
         var desktopsToSwitch: [Int] = []
 
         for monitor in monitors {
-            guard let spaceIndex = group.monitorSpaces[monitor.id] else {
-                logger.warning("  Monitor '\(monitor.id, privacy: .public)': no space index in group, skipping")
+            guard group.hasSpace(on: monitor) else {
+                logger.warning("  Monitor '\(monitor.id, privacy: .public)': no space in group, skipping")
                 continue
             }
-            guard let spaceInfo = monitor.spaceInfo(forIndex: spaceIndex) else {
-                logger.warning("  Monitor '\(monitor.id, privacy: .public)': no spaceInfo for index \(spaceIndex), available: 1...\(monitor.spaces.count), skipping")
+            guard let spaceInfo = group.space(on: monitor) else {
+                logger.warning("  Monitor '\(monitor.id, privacy: .public)': group's space no longer exists, skipping")
                 continue
             }
             let desktopNumber = spaceInfo.desktopNumber

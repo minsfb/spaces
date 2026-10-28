@@ -26,7 +26,7 @@ struct MonitorMappingView: View {
 
     private func labelForIndex(_ index: Int) -> String {
         let desktopNumber = monitor.spaceInfo(forIndex: index)?.desktopNumber ?? index
-        let usedBy = allGroups.filter { $0.id != currentGroupID && $0.monitorSpaces[monitor.id] == index }
+        let usedBy = allGroups.filter { $0.id != currentGroupID && $0.spaceIndex(on: monitor) == index }
         if let group = usedBy.first {
             return "Desktop \(desktopNumber) (used by \(group.name))"
         }
