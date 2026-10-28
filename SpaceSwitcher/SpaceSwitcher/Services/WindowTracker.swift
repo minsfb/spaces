@@ -72,11 +72,15 @@ final class WindowTracker: @unchecked Sendable {
     static let reportURL = FileManager.default.homeDirectoryForCurrentUser
         .appendingPathComponent("Library/Logs/SpaceSwitcher/dry-run.log")
 
+    /// Appends one section per display change (newest last), keeping the file under ~64 KB.
     private func writeReport(_ lines: [String]) {
         let url = Self.reportURL
         try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-        let header = "SpaceSwitcher dry run \(ISO8601DateFormatter().string(from: Date())) (nothing was moved)"
-        try? ([header] + lines).joined(separator: "\n").appending("\n").write(to: url, atomically: true, encoding: .utf8)
+        let header = "=== \(ISO8601DateFormatter().string(from: Date())) (dry run, nothing was moved)"
+        var text = (try? String(contentsOf: url, encoding: .utf8)) ?? ""
+        text += ([header] + lines).joined(separator: "\n") + "\n"
+        if text.utf8.count > 65_536 { text = String(text.suffix(49_152)) }
+        try? text.write(to: url, atomically: true, encoding: .utf8)
     }
 
     private func describe(_ m: PlannedMove) -> String {
@@ -124,11 +128,10 @@ final class WindowTracker: @unchecked Sendable {
                 records: movedRecords, connected: layout.displays,
                 spacesByDisplay: layout.spacesByDisplay, current: WindowSnapshotter.windowsByID(now))
             logger.info("dry-run restore: display(s) added=\(added.count), planned moves=\(moves.count) (nothing moved)")
-            var lines = ["RESTORE after reconnect of \(added.map { String($0.prefix(8)) }.sorted())",
+            let lines0 = ["RESTORE after reconnect of \(added.map { String($0.prefix(8)) }.sorted())",
                          "records from the last collapse: \(movedRecords.count); planned moves: \(moves.count)",
                          "(in a dry run nothing was collapsed, so windows are not where the records expect; 0 moves is expected)"]
-            lines += moves.map { "  " + describe($0) }
-            if let existing = try? String(contentsOf: Self.reportURL, encoding: .utf8) { lines = [existing, "---"] + lines }
+            let lines = lines0 + moves.map { "  " + describe($0) }
             writeReport(lines)
             movedRecords = []
         }
