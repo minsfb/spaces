@@ -1,5 +1,7 @@
 # Probes
 
+**Developer utilities only.** Nothing here is part of the app: it is not compiled by the Xcode project (which builds only `SpaceSwitcher/SpaceSwitcher`) nor by the SwiftPM test package (which covers only `SpaceSwitcher/SpaceSwitcher/Logic` and `Tests`), and it is never shipped.
+
 Small, standalone Swift programs used to answer capability questions (see the
 `investigation` issues). They are not part of the app. Build each with `swiftc`
 from the Command Line Tools; no Xcode project needed. Output goes to `/tmp`.
