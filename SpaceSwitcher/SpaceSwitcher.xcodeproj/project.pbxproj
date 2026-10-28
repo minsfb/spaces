@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		150EE3AF6ACAC8BD6530F32F /* SpaceDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51341432350BE0B352C726BD /* SpaceDiff.swift */; };
 		19F3467D5592246D46616000 /* SpaceSwitcherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1D73DA7B4FEB34EEA96877 /* SpaceSwitcherApp.swift */; };
 		276907AD7B4E1EB056C7784B /* DesktopGroupEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81701DEDA4E28B472C97E56B /* DesktopGroupEditorView.swift */; };
 		3AEFBF6C26780356D621E60E /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAADFEE3ABD51E06DD0FED3 /* WindowManager.swift */; };
@@ -44,6 +45,7 @@
 		44ADA2FB8CBA785DD97C2585 /* DesktopGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopGroup.swift; sourceTree = "<group>"; };
 		4A5A37978954CFFA4A6F0208 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		511C0879CCEE1BA7E98757E6 /* KeyCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCodes.swift; sourceTree = "<group>"; };
+		51341432350BE0B352C726BD /* SpaceDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceDiff.swift; sourceTree = "<group>"; };
 		5E2D42A485F3BA53DB58580E /* HotkeySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeySettingsView.swift; sourceTree = "<group>"; };
 		625BCCA3E367C8F5C636D3EB /* MonitorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorManager.swift; sourceTree = "<group>"; };
 		65111C8931987C4799E6C0BB /* AccessibilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityManager.swift; sourceTree = "<group>"; };
@@ -87,6 +89,14 @@
 				7263732107A87D03420C4606 /* SettingsView.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		169A15273541015416BF069E /* Logic */ = {
+			isa = PBXGroup;
+			children = (
+				51341432350BE0B352C726BD /* SpaceDiff.swift */,
+			);
+			path = Logic;
 			sourceTree = "<group>";
 		};
 		350042650CC08CA7806DACDB /* Overlay */ = {
@@ -140,6 +150,7 @@
 			children = (
 				877DBBE0B3AD2EB37C8682ED /* SpaceSwitcher.entitlements */,
 				3785A22139B7C05152AC1723 /* App */,
+				169A15273541015416BF069E /* Logic */,
 				D4377EBE87C331BE00831CBC /* Models */,
 				350042650CC08CA7806DACDB /* Overlay */,
 				A8EE4A9BAF3B7EC0DD7ADD08 /* Resources */,
@@ -220,7 +231,6 @@
 				};
 			};
 			buildConfigurationList = 3F3FCF3F94E2ED07B2CF2813 /* Build configuration list for PBXProject "SpaceSwitcher" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -234,6 +244,7 @@
 				0BE94AB6C099E6FFA9B54E11 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
 			);
 			preferredProjectObjectVersion = 77;
+			productRefGroup = 987761FA91B48584DF52A0A3 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -277,6 +288,7 @@
 				F5FCC3E292EDF9640E24FEE0 /* OverlayView.swift in Sources */,
 				D7D055CE573258AD5269C0BC /* PersistenceManager.swift in Sources */,
 				D153813DEA14AAD546D80A04 /* SettingsView.swift in Sources */,
+				150EE3AF6ACAC8BD6530F32F /* SpaceDiff.swift in Sources */,
 				19F3467D5592246D46616000 /* SpaceSwitcherApp.swift in Sources */,
 				7D42A462B649AC1BF6B9142F /* SpaceSwitcherService.swift in Sources */,
 				74E27AA9980ABA389AC13A0A /* VisualEffectBackground.swift in Sources */,
