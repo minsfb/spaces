@@ -29,6 +29,7 @@
 		BAA37BBA066776494258E361 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A83109240AF6FACCC850782 /* AppDelegate.swift */; };
 		BD6EC5B3DEB1DC8A59BAA138 /* NSScreen+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4BC5C2790911E5EE41FB19 /* NSScreen+Extensions.swift */; };
 		BE3D31B78E33FD5995D35368 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = D63285519C3081DAFCA6A9F0 /* KeyboardShortcuts */; };
+		C1968DCF7FC31D51CCE38909 /* SpaceIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF639B0B298E449054AEC38 /* SpaceIdentity.swift */; };
 		D153813DEA14AAD546D80A04 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7263732107A87D03420C4606 /* SettingsView.swift */; };
 		D7D055CE573258AD5269C0BC /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36173B1161C148BCD0DE9910 /* PersistenceManager.swift */; };
 		DAE47A0D4E60CF56B97980B0 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77C5687B4F304DCC6BB373E4 /* AppState.swift */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		01BA33362420C9BC4093D0EC /* IconPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPicker.swift; sourceTree = "<group>"; };
+		0FF639B0B298E449054AEC38 /* SpaceIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceIdentity.swift; sourceTree = "<group>"; };
 		12768B67B30930BCAEC78382 /* SpaceSwitcher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceSwitcher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1821E8BB46F8C5B39C68CF0B /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
 		1F1D73DA7B4FEB34EEA96877 /* SpaceSwitcherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceSwitcherApp.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 			children = (
 				DD665D90874B51B299675F3D /* GestureFollower.swift */,
 				51341432350BE0B352C726BD /* SpaceDiff.swift */,
+				0FF639B0B298E449054AEC38 /* SpaceIdentity.swift */,
 			);
 			path = Logic;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 				D7D055CE573258AD5269C0BC /* PersistenceManager.swift in Sources */,
 				D153813DEA14AAD546D80A04 /* SettingsView.swift in Sources */,
 				150EE3AF6ACAC8BD6530F32F /* SpaceDiff.swift in Sources */,
+				C1968DCF7FC31D51CCE38909 /* SpaceIdentity.swift in Sources */,
 				19F3467D5592246D46616000 /* SpaceSwitcherApp.swift in Sources */,
 				7D42A462B649AC1BF6B9142F /* SpaceSwitcherService.swift in Sources */,
 				74E27AA9980ABA389AC13A0A /* VisualEffectBackground.swift in Sources */,

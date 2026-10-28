@@ -6,7 +6,7 @@ struct DesktopGroupEditorView: View {
 
     @State private var name: String = ""
     @State private var icon: String = "Labtop"
-    @State private var monitorSpaces: [String: Int] = [:]
+    @State private var spaceIndices: [String: Int] = [:]   // monitor.id -> 1-based index (UI state only)
     @FocusState private var isNameFocused: Bool
 
     var body: some View {
@@ -31,8 +31,8 @@ struct DesktopGroupEditorView: View {
                     MonitorMappingView(
                         monitor: monitor,
                         spaceNumber: Binding(
-                            get: { monitorSpaces[monitor.id] ?? 1 },
-                            set: { monitorSpaces[monitor.id] = $0 }
+                            get: { spaceIndices[monitor.id] ?? 1 },
+                            set: { spaceIndices[monitor.id] = $0 }
                         ),
                         currentGroupID: group.id,
                         allGroups: appState.groups
@@ -51,7 +51,9 @@ struct DesktopGroupEditorView: View {
                     var updated = group
                     updated.name = name
                     updated.icon = icon
-                    updated.monitorSpaces = monitorSpaces
+                    for monitor in appState.monitors {
+                        updated.setSpaceIndex(spaceIndices[monitor.id] ?? 1, on: monitor)
+                    }
                     appState.updateGroup(updated)
                 }
                 .buttonStyle(.borderedProminent)
@@ -63,7 +65,7 @@ struct DesktopGroupEditorView: View {
         .onAppear {
             name = group.name
             icon = group.icon
-            monitorSpaces = group.monitorSpaces
+            loadIndices()
             if group.name == "New Group" {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     isNameFocused = true
@@ -73,12 +75,18 @@ struct DesktopGroupEditorView: View {
         .onChange(of: group.id) {
             name = group.name
             icon = group.icon
-            monitorSpaces = group.monitorSpaces
+            loadIndices()
             if group.name == "New Group" {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     isNameFocused = true
                 }
             }
         }
+    }
+
+    private func loadIndices() {
+        var result: [String: Int] = [:]
+        for monitor in appState.monitors { result[monitor.id] = group.spaceIndex(on: monitor) ?? 1 }
+        spaceIndices = result
     }
 }

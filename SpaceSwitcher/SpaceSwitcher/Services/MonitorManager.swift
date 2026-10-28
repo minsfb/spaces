@@ -66,7 +66,7 @@ enum MonitorManager {
             for space in rawSpaces {
                 guard (space["type"] as? Int) == 0,
                       let spaceID = space["id64"] as? UInt64 else { continue }
-                spaceInfos.append(SpaceInfo(desktopNumber: globalIndex, spaceID: spaceID))
+                spaceInfos.append(SpaceInfo(desktopNumber: globalIndex, spaceID: spaceID, uuid: space["uuid"] as? String ?? ""))
                 globalIndex += 1
             }
 

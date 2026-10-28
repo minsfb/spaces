@@ -99,17 +99,11 @@ struct GroupsSettingsView: View {
     private func addGroup() {
         // Default to the currently active space on each monitor
         let currentSpaces = SpaceSwitcherService.getCurrentSpacePerDisplay()
-        let monitorSpaces = Dictionary(uniqueKeysWithValues: appState.monitors.map { monitor -> (String, Int) in
-            if let currentSpaceID = currentSpaces[monitor.displayUUID],
-               let idx = monitor.spaces.firstIndex(where: { $0.spaceID == currentSpaceID }) {
-                return (monitor.id, idx + 1)  // 1-based per-monitor index
-            }
-            return (monitor.id, 1)
-        })
+        let displaySpaces = DesktopGroup.displaySpacesForCurrent(monitors: appState.monitors, currentSpaces: currentSpaces)
 
         let appearance = DesktopGroup.randomAppearance()
         let newGroup = DesktopGroup(name: "New Group", icon: appearance.icon,
-                                    colorName: appearance.color, monitorSpaces: monitorSpaces)
+                                    colorName: appearance.color, displaySpaces: displaySpaces)
         appState.addGroup(newGroup)
         selectedGroupID = newGroup.id
     }

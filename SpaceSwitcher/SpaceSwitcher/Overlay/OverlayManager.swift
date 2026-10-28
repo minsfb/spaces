@@ -261,7 +261,7 @@ final class OverlayManager {
         let monitors = appState.monitors
         let monitor = monitors.first { $0.frame.contains(windowCenter) } ?? monitors.first
         guard let monitor else { return }
-        guard let spaceIndex = group.monitorSpaces[monitor.label] else { return }
+        guard let spaceIndex = group.spaceIndex(on: monitor) else { return }
         let targetIdx = spaceIndex - 1  // convert 1-based index to array index
         guard targetIdx >= 0, targetIdx < monitor.spaces.count else { return }
         let targetDesktop = monitor.spaces[targetIdx].desktopNumber
