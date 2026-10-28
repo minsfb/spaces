@@ -11,3 +11,12 @@ xcuserdata/
 
 # macOS
 .DS_Store
+
+# Build products and release artifacts. This project does not publish binaries; build from source.
+*.app
+*.dmg
+*.zip
+*.pkg
+*.xcarchive
+*.dSYM/
+*.xcresult/
