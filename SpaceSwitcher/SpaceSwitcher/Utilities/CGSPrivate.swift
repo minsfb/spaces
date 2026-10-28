@@ -18,3 +18,7 @@ func CGSMainConnectionID() -> Int32
 
 @_silgen_name("CGSGetActiveSpace")
 func CGSGetActiveSpace(_ connection: Int32) -> Int
+
+/// Read-only: the Space ids a window belongs to (`mask` 7 = all Spaces).
+@_silgen_name("CGSCopySpacesForWindows")
+func CGSCopySpacesForWindows(_ connection: Int32, _ mask: Int32, _ windowIDs: CFArray) -> CFArray
