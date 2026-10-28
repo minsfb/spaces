@@ -20,6 +20,7 @@ Spaces lets you link one Space on Monitor A with one Space on Monitor B and trea
 - **Overlay switcher** — press Option+Space to get a visual overlay showing all your groups, navigate with arrow keys or number keys
 - **Move windows** — right-click in the overlay to move the frontmost window to another group's space
 - **Auto-detect** — the active group updates automatically when you switch spaces via Mission Control
+- **Follow** (off by default, Settings > General) — change the Space on one display with a swipe, Ctrl+arrow or Mission Control and the other displays in that group follow
 
 ## Requirements
 
@@ -33,12 +34,14 @@ Spaces lets you link one Space on Monitor A with one Space on Monitor B and trea
 ### Build and install
 
 ```bash
-git clone https://github.com/anantgarg/spaces.git
+git clone https://github.com/minsfb/spaces.git
 cd spaces/SpaceSwitcher
 ./install.sh
 ```
 
 This builds the app, installs it to `/Applications/Spaces.app`, and launches it.
+
+**No prebuilt binaries are published for this project; build it from source.** See [DEVELOPMENT.md](DEVELOPMENT.md) for build and test details.
 
 ### Grant Accessibility access
 
@@ -71,8 +74,17 @@ Press **Option+Space** to show the overlay switcher:
 
 - Uses macOS private CGS APIs to detect spaces and their IDs per display
 - Switches desktops by simulating Ctrl+Number keyboard shortcuts (the same ones you'd press manually)
-- Groups store per-monitor 1-based indices that automatically reconcile when spaces are added or removed
+- Groups store `display UUID -> Space UUID`, so they keep pointing at the same Space when Spaces are reordered, added, or re-created, and when a display is unplugged and replugged
+- Private CGS APIs are used only to *read* Space layout; Spaces are switched with the native keyboard shortcuts (see the notes below)
 - Runs as a menu bar app (`LSUIElement`) with no dock icon
+
+## Notes on macOS behavior
+
+Findings from testing on macOS 26 (details in the repository issues):
+
+- Other apps' windows cannot be moved between Spaces with private CGS calls without disabling SIP; this project does not use or require SIP changes. Window moves in the overlay work by emulating a title-bar drag plus the Space-switch shortcut.
+- Switching a Space with the private `CGSManagedDisplaySetCurrentSpace` call is not equivalent to a native switch, so it is not used.
+- When an external display is unplugged, macOS folds that display's first Space into the first laptop Space and appends its other Spaces to the laptop's Space list; on replug it restores them, and the first Space comes back with a different internal ID but the same UUID.
 
 ## Project structure
 
@@ -80,6 +92,7 @@ Press **Option+Space** to show the overlay switcher:
 SpaceSwitcher/
 ├── App/                  # App entry point, AppDelegate, AppState, MenuBarView
 ├── Models/               # DesktopGroup, MonitorInfo, SpaceInfo
+├── Logic/                # Pure logic (no AppKit/CGS), unit-tested via the SwiftPM package
 ├── Services/             # SpaceSwitcherService, MonitorManager, PersistenceManager
 ├── Settings/             # Settings window views
 ├── Overlay/              # Overlay switcher panel and views
@@ -95,3 +108,7 @@ SpaceSwitcher/
 ## License
 
 MIT
+
+## Developer tools
+
+`tools/probes/` holds small standalone programs used to investigate macOS behavior. They are not part of the app or any build.

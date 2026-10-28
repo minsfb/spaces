@@ -1,29 +1,20 @@
 import CoreGraphics
 
-// MARK: - Private CoreGraphics SPI for Space Management
-// These functions are not in public headers but are stable across macOS versions.
-// Required for programmatic window-to-space movement.
+// MARK: - Private CoreGraphics SPI (read-only Space queries)
+//
+// These symbols are not in public headers. They are only used to *read* Space layout and the active
+// Space; this app never uses private calls to move windows or to switch Spaces:
+//  - Moving other processes' windows with CGSAddWindowsToSpaces / CGSMoveWindowsToManagedSpace is a
+//    silent no-op on current macOS without SIP-dependent injection (verified on macOS 26, issue #6).
+//  - CGSManagedDisplaySetCurrentSpace changes the "current Space" bookkeeping but does not post
+//    NSWorkspace.activeSpaceDidChangeNotification or hide the previous Space's windows (issue #5).
+// Spaces are switched with the native "Switch to Desktop N" keyboard shortcuts instead.
 
 @_silgen_name("CGSCopyManagedDisplaySpaces")
 func CGSCopyManagedDisplaySpaces(_ connection: Int32) -> CFArray
-
-@_silgen_name("CGSAddWindowsToSpaces")
-func CGSAddWindowsToSpaces(_ connection: Int32, _ windowIDs: CFArray, _ spaceIDs: CFArray)
-
-@_silgen_name("CGSRemoveWindowsFromSpaces")
-func CGSRemoveWindowsFromSpaces(_ connection: Int32, _ windowIDs: CFArray, _ spaceIDs: CFArray)
 
 @_silgen_name("CGSMainConnectionID")
 func CGSMainConnectionID() -> Int32
 
 @_silgen_name("CGSGetActiveSpace")
 func CGSGetActiveSpace(_ connection: Int32) -> Int
-
-@_silgen_name("CGSManagedDisplaySetCurrentSpace")
-func CGSManagedDisplaySetCurrentSpace(_ connection: Int32, _ displayUUID: CFString, _ spaceID: UInt64)
-
-@_silgen_name("CGSHideSpaces")
-func CGSHideSpaces(_ connection: Int32, _ spaces: CFArray)
-
-@_silgen_name("CGSShowSpaces")
-func CGSShowSpaces(_ connection: Int32, _ spaces: CFArray)

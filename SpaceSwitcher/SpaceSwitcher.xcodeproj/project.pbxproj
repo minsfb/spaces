@@ -10,7 +10,6 @@
 		150EE3AF6ACAC8BD6530F32F /* SpaceDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51341432350BE0B352C726BD /* SpaceDiff.swift */; };
 		19F3467D5592246D46616000 /* SpaceSwitcherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F1D73DA7B4FEB34EEA96877 /* SpaceSwitcherApp.swift */; };
 		276907AD7B4E1EB056C7784B /* DesktopGroupEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81701DEDA4E28B472C97E56B /* DesktopGroupEditorView.swift */; };
-		3AEFBF6C26780356D621E60E /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFAADFEE3ABD51E06DD0FED3 /* WindowManager.swift */; };
 		43258A596FDD206BF54E016D /* CGSPrivate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0731CEDE994E470A48867B5 /* CGSPrivate.swift */; };
 		43FFCE9B9289DE0F5D877FE7 /* OverlayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5CBF89239D977C5E6018C9B /* OverlayManager.swift */; };
 		63289137A46C186245F06E95 /* MonitorMappingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5FC4B141B8E046513571E6E /* MonitorMappingView.swift */; };
@@ -67,7 +66,6 @@
 		F0731CEDE994E470A48867B5 /* CGSPrivate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSPrivate.swift; sourceTree = "<group>"; };
 		F5FC4B141B8E046513571E6E /* MonitorMappingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorMappingView.swift; sourceTree = "<group>"; };
 		FBC9BD10777570A68A1B5DFA /* VisualEffectBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectBackground.swift; sourceTree = "<group>"; };
-		FFAADFEE3ABD51E06DD0FED3 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,7 +182,6 @@
 				625BCCA3E367C8F5C636D3EB /* MonitorManager.swift */,
 				36173B1161C148BCD0DE9910 /* PersistenceManager.swift */,
 				B99E961A805224DAE6EC4908 /* SpaceSwitcherService.swift */,
-				FFAADFEE3ABD51E06DD0FED3 /* WindowManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -300,7 +297,6 @@
 				19F3467D5592246D46616000 /* SpaceSwitcherApp.swift in Sources */,
 				7D42A462B649AC1BF6B9142F /* SpaceSwitcherService.swift in Sources */,
 				74E27AA9980ABA389AC13A0A /* VisualEffectBackground.swift in Sources */,
-				3AEFBF6C26780356D621E60E /* WindowManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
