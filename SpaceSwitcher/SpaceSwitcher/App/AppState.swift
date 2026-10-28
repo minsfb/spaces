@@ -8,6 +8,14 @@ final class AppState {
     var activeGroupID: UUID?
     var pendingSelectGroupID: UUID?
 
+    /// When on, changing the Space on one display by any native means (e.g. three-finger swipe) moves the
+    /// other displays to the same group's Spaces. Off by default.
+    var followEnabled: Bool = UserDefaults.standard.bool(forKey: "gestureFollowEnabled") {
+        didSet { UserDefaults.standard.set(followEnabled, forKey: "gestureFollowEnabled") }
+    }
+
+    private var follower = GestureFollower()
+    private var lastCurrentSpaces: CurrentSpaces = [:]
     private let persistence = PersistenceManager()
     private var previousSpaceIDs: [String: [UInt64]] = [:]  // monitorID → ordered space IDs
 
@@ -17,6 +25,7 @@ final class AppState {
         persistence.migrateToPerMonitorIndicesIfNeeded(monitors: monitors)
         groups = persistence.loadGroups()  // reload after potential migration
         previousSpaceIDs = buildSpaceIDSnapshot(monitors)
+        lastCurrentSpaces = SpaceSwitcherService.getCurrentSpacePerDisplay()
         detectActiveGroup()
 
         // Re-detect active group whenever the user switches spaces (e.g. via Mission Control)
@@ -29,8 +38,37 @@ final class AppState {
     }
 
     @objc private func spaceDidChange() {
+        let old = lastCurrentSpaces
+        let new = SpaceSwitcherService.getCurrentSpacePerDisplay()
+        lastCurrentSpaces = new
         refreshMonitors()
         detectActiveGroup()
+
+        guard followEnabled else { return }
+        let requests = follower.handle(
+            old: old, new: new,
+            groups: followGroups(),
+            now: ProcessInfo.processInfo.systemUptime
+        )
+        guard !requests.isEmpty else { return }
+        let monitorsCopy = monitors
+        Task { @MainActor in
+            await SpaceSwitcherService.switchDisplays(requests, monitors: monitorsCopy)
+        }
+    }
+
+    /// Resolve saved groups (monitor label + per-monitor Space index) to concrete display UUID -> Space ID.
+    private func followGroups() -> [FollowGroup] {
+        groups.compactMap { group in
+            var targets: [String: UInt64] = [:]
+            for (monitorID, index) in group.monitorSpaces {
+                guard let monitor = monitors.first(where: { $0.id == monitorID }),
+                      !monitor.displayUUID.isEmpty,
+                      let space = monitor.spaceInfo(forIndex: index) else { continue }
+                targets[monitor.displayUUID] = space.spaceID
+            }
+            return targets.isEmpty ? nil : FollowGroup(id: group.id, targets: targets)
+        }
     }
 
     func refreshMonitors() {
