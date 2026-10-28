@@ -12,6 +12,7 @@ from the Command Line Tools; no Xcode project needed. Output goes to `/tmp`.
 | `snapshot_cost.swift` | #2 | Yes, read-only. Times a full window/Space snapshot. |
 | `space_change_probe.swift` | #4 | Yes, read-only. Logs Space changes and which display changed. |
 | `unplug_logger.swift` | #1, #3 | Yes, passive. Records display events and window/Space snapshots (no titles). |
+| `direct_switch_probe.swift` | #5 | **Briefly switches a display's Space and restores it.** Run only when ready. |
 | `ax_probe.swift` | #6 | Needs Accessibility for the host terminal. Briefly shows a throwaway window, moves it across displays by AX position. Does not switch Spaces. |
 
 ```
