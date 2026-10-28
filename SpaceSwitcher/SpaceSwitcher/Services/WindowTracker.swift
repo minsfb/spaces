@@ -67,6 +67,23 @@ final class WindowTracker: @unchecked Sendable {
 
     private var settleWork: DispatchWorkItem?
 
+    /// Dry-run report written locally so the plan can be reviewed without Console access. Contains window IDs,
+    /// app names and Space keys only (never window titles). Overwritten on each display change.
+    static let reportURL = FileManager.default.homeDirectoryForCurrentUser
+        .appendingPathComponent("Library/Logs/SpaceSwitcher/dry-run.log")
+
+    private func writeReport(_ lines: [String]) {
+        let url = Self.reportURL
+        try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+        let header = "SpaceSwitcher dry run \(ISO8601DateFormatter().string(from: Date())) (nothing was moved)"
+        try? ([header] + lines).joined(separator: "\n").appending("\n").write(to: url, atomically: true, encoding: .utf8)
+    }
+
+    private func describe(_ m: PlannedMove) -> String {
+        let app = NSRunningApplication(processIdentifier: pid_t(m.pid))?.localizedName ?? "pid \(m.pid)"
+        return "window \(m.windowID) [\(app)]: \(m.from.displayUUID.prefix(8)):\(m.from.spaceKey.prefix(8)) -> \(m.to.displayUUID.prefix(8)):\(m.to.spaceKey.prefix(8))"
+    }
+
     private func beginReconfiguration() {
         guard isRunning else { return }
         history.freeze(at: ProcessInfo.processInfo.systemUptime)
@@ -94,15 +111,25 @@ final class WindowTracker: @unchecked Sendable {
                 spacesByDisplay: layout.spacesByDisplay, current: WindowSnapshotter.windowsByID(now))
             movedRecords = WindowMovePlanner.records(for: moves, snapshot: before)
             logger.info("dry-run collapse: display(s) removed=\(removed.count), planned moves=\(moves.count) (nothing moved)")
-            for m in moves {
-                logger.info("  would move window \(m.windowID): \(m.from.spaceKey, privacy: .public) -> \(m.to.spaceKey, privacy: .public)")
-            }
+            let groups = groupsProvider()
+            var lines = ["COLLAPSE after disconnect of \(removed.map { String($0.prefix(8)) }.sorted())",
+                         "snapshot used: \(Int(ProcessInfo.processInfo.systemUptime - before.time)) s old, \(before.windows.count) windows",
+                         "removed display(s) held \(before.windows.filter { removed.contains($0.location.displayUUID) }.count) windows; groups: \(groups.count)",
+                         "planned moves: \(moves.count)"]
+            lines += moves.map { "  " + describe($0) }
+            writeReport(lines)
         } else if !added.isEmpty {
             let now = WindowSnapshotter.capture(layout: layout, now: ProcessInfo.processInfo.systemUptime)
             let moves = WindowMovePlanner.planRestore(
                 records: movedRecords, connected: layout.displays,
                 spacesByDisplay: layout.spacesByDisplay, current: WindowSnapshotter.windowsByID(now))
             logger.info("dry-run restore: display(s) added=\(added.count), planned moves=\(moves.count) (nothing moved)")
+            var lines = ["RESTORE after reconnect of \(added.map { String($0.prefix(8)) }.sorted())",
+                         "records from the last collapse: \(movedRecords.count); planned moves: \(moves.count)",
+                         "(in a dry run nothing was collapsed, so windows are not where the records expect; 0 moves is expected)"]
+            lines += moves.map { "  " + describe($0) }
+            if let existing = try? String(contentsOf: Self.reportURL, encoding: .utf8) { lines = [existing, "---"] + lines }
+            writeReport(lines)
             movedRecords = []
         }
 
