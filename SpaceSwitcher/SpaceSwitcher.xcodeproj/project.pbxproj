@@ -17,6 +17,7 @@
 		658143785DF5075AC26B6C27 /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1821E8BB46F8C5B39C68CF0B /* MenuBarView.swift */; };
 		6A511CA2AB59B4DB04BFA6D9 /* IconPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BA33362420C9BC4093D0EC /* IconPicker.swift */; };
 		6A742D2BB080B34B4815FF3A /* AccessibilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65111C8931987C4799E6C0BB /* AccessibilityManager.swift */; };
+		6D08E9CD25E5FC0297268050 /* GestureFollower.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD665D90874B51B299675F3D /* GestureFollower.swift */; };
 		718D23BC7B129DFC05AABEC2 /* MonitorInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01D2E144AE1C45F0FDB9FBA /* MonitorInfo.swift */; };
 		74E27AA9980ABA389AC13A0A /* VisualEffectBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBC9BD10777570A68A1B5DFA /* VisualEffectBackground.swift */; };
 		78E316CD8F4D07D7B38D9384 /* KeyCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511C0879CCEE1BA7E98757E6 /* KeyCodes.swift */; };
@@ -60,6 +61,7 @@
 		BCBF2012EF7F2217F044A09E /* OverlayPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayPanel.swift; sourceTree = "<group>"; };
 		C60AE9CD1620F9B149804385 /* OverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayView.swift; sourceTree = "<group>"; };
 		D01D2E144AE1C45F0FDB9FBA /* MonitorInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorInfo.swift; sourceTree = "<group>"; };
+		DD665D90874B51B299675F3D /* GestureFollower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureFollower.swift; sourceTree = "<group>"; };
 		F0731CEDE994E470A48867B5 /* CGSPrivate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSPrivate.swift; sourceTree = "<group>"; };
 		F5FC4B141B8E046513571E6E /* MonitorMappingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorMappingView.swift; sourceTree = "<group>"; };
 		FBC9BD10777570A68A1B5DFA /* VisualEffectBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectBackground.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 		169A15273541015416BF069E /* Logic */ = {
 			isa = PBXGroup;
 			children = (
+				DD665D90874B51B299675F3D /* GestureFollower.swift */,
 				51341432350BE0B352C726BD /* SpaceDiff.swift */,
 			);
 			path = Logic;
@@ -275,6 +278,7 @@
 				43258A596FDD206BF54E016D /* CGSPrivate.swift in Sources */,
 				A616E75F65BC7F6598F5F83F /* DesktopGroup.swift in Sources */,
 				276907AD7B4E1EB056C7784B /* DesktopGroupEditorView.swift in Sources */,
+				6D08E9CD25E5FC0297268050 /* GestureFollower.swift in Sources */,
 				B4F5098928558C30AC9E0680 /* HotkeySettingsView.swift in Sources */,
 				6A511CA2AB59B4DB04BFA6D9 /* IconPicker.swift in Sources */,
 				78E316CD8F4D07D7B38D9384 /* KeyCodes.swift in Sources */,

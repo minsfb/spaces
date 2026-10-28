@@ -65,6 +65,31 @@ enum SpaceSwitcherService {
             return
         }
 
+        await postDesktopSwitches(desktopsToSwitch, trusted: trusted)
+        logger.info("=== switchToGroup complete ===")
+    }
+
+    /// Switch specific displays to specific Spaces (used by gesture-follow). Requests whose display or
+    /// Space is unknown are skipped. Uses the same keystroke mechanism as `switchToGroup`.
+    @MainActor
+    static func switchDisplays(_ requests: [SwitchRequest], monitors: [MonitorInfo]) async {
+        var desktops: [Int] = []
+        for request in requests {
+            guard let monitor = monitors.first(where: { $0.displayUUID == request.displayUUID }),
+                  let space = monitor.spaces.first(where: { $0.spaceID == request.spaceID }) else {
+                logger.warning("switchDisplays: unknown display/space for request, skipping")
+                continue
+            }
+            desktops.append(space.desktopNumber)
+        }
+        guard !desktops.isEmpty else { return }
+        let trusted = AXIsProcessTrusted()
+        if !trusted { AccessibilityManager.checkAndPrompt() }
+        await postDesktopSwitches(desktops, trusted: trusted)
+    }
+
+    @MainActor
+    private static func postDesktopSwitches(_ desktopsToSwitch: [Int], trusted: Bool) async {
         let desktopsDesc = desktopsToSwitch.map { String($0) }.joined(separator: ", ")
         logger.info("Desktops to switch: \(desktopsDesc, privacy: .public)")
 
@@ -103,8 +128,6 @@ enum SpaceSwitcherService {
             let newSpacesDesc = newSpaces.map { "\($0.key): \($0.value)" }.joined(separator: ", ")
             logger.info("Spaces after switch attempt: \(newSpacesDesc, privacy: .public)")
         }
-
-        logger.info("=== switchToGroup complete ===")
     }
 
     private static func postKeystroke(source: CGEventSource?, keyCode: UInt16, flags: CGEventFlags) -> Bool {

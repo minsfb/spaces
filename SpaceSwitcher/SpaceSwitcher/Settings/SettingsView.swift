@@ -159,6 +159,8 @@ struct GeneralSettingsView: View {
         Form {
             HotkeySettingsView()
             LaunchAtLogin.Toggle("Launch at login")
+            Toggle("Switch the whole group when a Space changes on one display (e.g. three-finger swipe)",
+                   isOn: Binding(get: { appState.followEnabled }, set: { appState.followEnabled = $0 }))
 
             if Bundle.main.bundleIdentifier == "com.spaceswitcher.Spaces" {
                 Divider()
